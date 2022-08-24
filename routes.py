@@ -1,17 +1,17 @@
-from applications import applications, db
+from application import application, db
 from flask import Flask, render_template, redirect, url_for, flash, get_flashed_messages
 from models import Task
 from datetime import datetime
 import forms
 
 
-@applications.route('/')
-@applications.route('/index')
+@application.route('/')
+@application.route('/index')
 def index():
     tasks = Task.query.all()
     return render_template('index.html', tasks=tasks)
 
-@applications.route('/add', methods=['GET','POST'])
+@application.route('/add', methods=['GET','POST'])
 def add():
     form = forms.AddTaskForm()
     if form.validate_on_submit():
@@ -22,7 +22,7 @@ def add():
         return redirect(url_for('index'))
     return render_template("add.html", form = form)
 
-@applications.route('/edit/<int:task_id>', methods=['GET', 'POST'])
+@application.route('/edit/<int:task_id>', methods=['GET', 'POST'])
 def edit(task_id):
     task = Task.query.get(task_id)
     form = forms.AddTaskForm()
@@ -43,7 +43,7 @@ def edit(task_id):
     return redirect(url_for('index'))
 
 
-@applications.route('/delete/<int:task_id>', methods=['GET', 'POST'])
+@application.route('/delete/<int:task_id>', methods=['GET', 'POST'])
 def delete(task_id):
     task = Task.query.get(task_id)
     form = forms.DeleteTaskForm()
